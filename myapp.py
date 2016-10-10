@@ -1,4 +1,3 @@
-
 from openmtc_app import DA
 from openmtc_app.flask_runner import FlaskRunner
 import time
@@ -26,11 +25,12 @@ class MyDA(DA):
 			data = {
 				"data": sensor_data
 			}
+			print data
 			self.push_content(container, data)
-			time.sleep(60)
+			time.sleep(10)
 
 app_instance = MyDA() 
 runner = FlaskRunner(app_instance)
 
-GSCL_URL="http://<IP del GSCL>:4000"
+GSCL_URL="http://192.168.254.128:4000"
 runner.run(GSCL_URL) 
