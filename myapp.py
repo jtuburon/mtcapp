@@ -19,7 +19,13 @@ class MyDA(DA):
 		}
 
 	def _on_register(self):
-		container= self.create_container(None, "myContainer")
+		try:
+			mtcApp = self.mapper.get("/applications/mtcApp")
+		except:
+			mtcApp = self.create_application("mtcApp", "/applications")
+		
+		print "HOLAAA"
+		container= self.create_container(mtcApp, "sensordata")
 		while True:
 			sensor_data = self.read_sensor_data()
 			data = {
