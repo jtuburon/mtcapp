@@ -5,7 +5,7 @@ import time
 import sys
 import Adafruit_DHT
 
-class MyDA(DA):
+class MTCApp(DA):
 	def read_sensor_data(self):
 		sensor_args = {'11': Adafruit_DHT.DHT11,
 		'22': Adafruit_DHT.DHT22,
@@ -20,12 +20,10 @@ class MyDA(DA):
 
 	def _on_register(self):
 		try:
-			mtcApp = self.mapper.get("/applications/mtcApp")
+			container = self.mapper.get("/applications/MTCApp/containers/sensordata")
 		except:
-			mtcApp = self.create_application("mtcApp", "/applications")
-		
-		print "HOLAAA"
-		container= self.create_container(mtcApp, "sensordata")
+			container= self.create_container(None, "sensordata")
+
 		while True:
 			sensor_data = self.read_sensor_data()
 			data = {
@@ -35,7 +33,7 @@ class MyDA(DA):
 			self.push_content(container, data)
 			time.sleep(10)
 
-app_instance = MyDA() 
+app_instance = MTCApp() 
 runner = FlaskRunner(app_instance)
 
 GSCL_URL="http://192.168.254.128:4000"
